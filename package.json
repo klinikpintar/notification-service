@@ -22,10 +22,13 @@
   },
   "homepage": "https://github.com/klinikpintar/notification-service#readme",
   "dependencies": {
+    "body-parser": "^1.20.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
+    "express-validator": "^6.14.0",
     "notifme-sdk": "^1.11.0",
-    "notifme-template": "^1.0.0"
+    "notifme-template": "^1.0.0",
+    "nunjucks": "^3.2.3"
   },
   "devDependencies": {
     "@types/express": "^4.17.13",
