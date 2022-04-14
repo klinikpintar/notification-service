@@ -32,16 +32,14 @@ app.post('/email',
     const factory = new Factory('email')
 
     try {
-      const payload:Payload = {
+      const data = await factory.send({
         to: req.body.to,
         from: req.body.from,
         subject: req.body.subject,
         text: req.body.text,
         template: req.body.template,
         data: req.body.data,
-      }
-
-      const data = await factory.send(payload)
+      })
 
       res.json({
         message: 'Success send email.',
@@ -50,6 +48,34 @@ app.post('/email',
     } catch (error) {
       res.statusCode = 500
       res.json({ message: error || 'Error send email' })
+    }
+})
+
+app.post('/sms',
+  body('to').exists(),
+  body('from').optional(),
+  body('text').exists(),
+  async (req: Request, res: Response) => {
+    const errors = validationResult(req)
+    if (!errors.isEmpty()) {
+      return res.status(422).json({ errors: errors.array() })
+    }
+
+    const factory = new Factory('sms')
+
+    try {
+      const data = await factory.send({
+        to: req.body.to,
+        from: req.body.from,
+        text: req.body.text
+      })
+      res.json({
+        message: 'Success send sms.',
+        data
+      })
+    } catch (error) {
+      res.statusCode = 500
+      res.json({ message: error || 'Error send sms' })
     }
 })
 
